@@ -22,7 +22,7 @@ const Page = () => {
   const params = useParams<{ id: string }>();
   const [challenge, setChallenge] = useState<ChallengeType>();
   const router = useRouter();
- const getChallenge = async (id: string) => {
+  const getChallenge = async (id: string) => {
     const response = await axios.get(`http://localhost:4000/challenges/${id}`);
     if (response) {
       console.log(response.data);
@@ -30,25 +30,23 @@ const Page = () => {
     }
   };
 
-  const deleteChallenge = async(id:string) => {
+  const deleteChallenge = async (id: any) => {
     const res = await axios.delete(`http://localhost:4000/challenges/${id}`, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`, 
-      }
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
-    if(res){
-      console.log("deleted")
+    if (res) {
+      console.log("deleted");
       router.push("/admin/challenges");
-      
-    }else {
-      console.log("failed to del")
+    } else {
+      console.log("failed to del");
     }
-  }
+  };
   useEffect(() => {
     getChallenge(params.id);
   }, [params.id]);
-
 
   return (
     <div className="excluded">
@@ -97,42 +95,34 @@ const Page = () => {
             <h2 className="text-[20px] text-black font-semibold">
               Project Brief: {challenge?.title}
             </h2>
-            <p className="text-[14px]">
-             {challenge?.projectBrief}
-            </p>
+            <p className="text-[14px]">{challenge?.projectBrief}</p>
             <div className="excluded flex flex-col w-[545px] space-y-[20px] text-left ">
               <h2 className="text-[20px] text-black font-semibold">Tasks</h2>
               <h2 className="text-[20px] text-black font-semibold">
                 Product Requirements
               </h2>
               <ul className="text-[14px] list-disc ml-[15px] flex flex-col space-y-[10px]">
-               {
-                challenge?.requirements.map((item, index) => (
+                {challenge?.requirements.map((item, index) => (
                   <li key={index}>{item}</li>
-                ))
-               }
+                ))}
               </ul>
               <h2 className="text-[20px] text-black font-semibold">
                 Product Design
               </h2>
               <ul className="text-[14px] list-disc ml-[15px] flex flex-col space-y-[10px]">
-              {
-                challenge?.product_design.map((item, index) => (
+                {challenge?.product_design.map((item, index) => (
                   <li key={index}>{item}</li>
-                ))
-               }
+                ))}
               </ul>
               <h2 className="text-[20px] text-black font-semibold">
                 Deliverables
               </h2>
               <ul className="text-[14px] list-disc ml-[15px] flex flex-col space-y-[10px]">
-              {
-                challenge?.deliverables.map((item, index) => (
+                {challenge?.deliverables.map((item, index) => (
                   <li key={index}>{item}</li>
-                ))
-               }
+                ))}
               </ul>
-             
+
               <h2 className="text-[20px] text-black font-semibold">NOTE</h2>
               <ul className="text-[14px] list-disc ml-[15px] flex flex-col space-y-[10px]">
                 <li>
@@ -166,7 +156,7 @@ const Page = () => {
                 </button>
                 <div className="flex flex-col flex-1 gap-1 ">
                   <p className=" text-[15px] font-semibold">
-                   {challenge?.contactEmail}
+                    {challenge?.contactEmail}
                   </p>
                   <p className=" text-[13px]">Contact Email</p>
                 </div>
@@ -179,7 +169,9 @@ const Page = () => {
                   <IoBagOutline className="text-[#2B71F0] text-[23px]" />
                 </button>
                 <div className="flex flex-col flex-1 gap-1 ">
-                  <p className=" text-[15px] font-semibold">{challenge?.category}</p>
+                  <p className=" text-[15px] font-semibold">
+                    {challenge?.category}
+                  </p>
                   <p className=" text-[13px]">Challenge Category</p>
                 </div>
               </div>
@@ -191,7 +183,9 @@ const Page = () => {
                   <IoCalendarOutline className="text-[#2B71F0] text-[23px]" />
                 </button>
                 <div className="flex flex-col flex-1 gap-1 ">
-                  <p className=" text-[15px] font-semibold">{challenge?.duration} Days </p>
+                  <p className=" text-[15px] font-semibold">
+                    {challenge?.duration} Days{" "}
+                  </p>
                   <p className=" text-[13px]">Duration</p>
                 </div>
               </div>
@@ -203,13 +197,18 @@ const Page = () => {
                   <CiDollar className="text-[#2B71F0] font-bold text-[23px]" />
                 </button>
                 <div className="flex flex-col flex-1 gap-1 ">
-                  <p className=" text-[15px] font-semibold">$150 - ${challenge?.moneyPrice}</p>
+                  <p className=" text-[15px] font-semibold">
+                    $150 - ${challenge?.moneyPrice}
+                  </p>
                   <p className=" text-[13px]">Money Prize</p>
                 </div>
               </div>
             </div>
             <div className="flex flex-row items-center mt-[50px] space-x-[10px] justify-center">
-              <button className="text-[16px] w-[160px] h-[55px] text-white rounded-[8px] bg-[#E5533C] " onClick={() => deleteChallenge(challenge?._id)}>
+              <button
+                className="text-[16px] w-[160px] h-[55px] text-white rounded-[8px] bg-[#E5533C] "
+                onClick={() => deleteChallenge(challenge?._id)}
+              >
                 Delete
               </button>
               <Link href={`/admin/challenges/edit/${challenge?._id}`}>
