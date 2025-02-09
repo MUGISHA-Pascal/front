@@ -1,4 +1,5 @@
-// "use client";
+"use client";
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -47,17 +48,12 @@ interface AuthState {
 }
 
 const loadAuthState = (): AuthState => {
-  // Only access localStorage on the client side
-  if (typeof window === "undefined") {
-    return { token: null, user: null };
-  }
-
-  const storedToken = localStorage.getItem("token");
-  const storedUser = localStorage.getItem("user");
-
+  // if (typeof window === "undefined") {
+  //   return { token: null, user: null };
+  // }
   return {
-    token: storedToken || null,
-    user: storedUser ? JSON.parse(storedUser) : null,
+    token: null,
+    user: null,
   };
 };
 
@@ -69,22 +65,10 @@ const authSlice = createSlice({
     setCredentials: (state, action: PayloadAction<LoginResponseDto>) => {
       state.token = action.payload.token;
       state.user = action.payload.user;
-
-      // Ensure localStorage access only on the client
-      if (typeof window !== "undefined") {
-        localStorage.setItem("token", action.payload.token);
-        localStorage.setItem("user", JSON.stringify(action.payload.user));
-      }
     },
     clearCredentials: (state) => {
       state.token = null;
       state.user = null;
-
-      // Ensure localStorage access only on the client
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-      }
     },
   },
 });
