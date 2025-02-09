@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (prefers-color-scheme: dark) {
+}
+@keyframes appear {
+  from {
+    /* opacity: 0.8; */
+    /* transform: translateY(20px); */
+    scale: 0.7;
+  }
+  to {
+    /* opacity: 1; */
+    /* transform: translateY(0); */
+    scale: 1;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+section:not(.firstSection),
+footer:not(.firstFooter),
+div:not(.challengeCard):not(.excluded):not(.excludedDashBoard) {
+  animation: appear 1s linear;
+  animation-timeline: view();
+  animation-range: entry 0%;
+}
+@media (max-width: 768px) {
+  section:not(.firstSection),
+  footer:not(.firstFooter),
+  div:not(.challengeCard):not(.excluded):not(.excludedDashBoard) {
+    animation: appear 1s linear;
+    animation-timeline: view();
+    animation-range: entry 100%;
+  }
+}
+
+.rounded-border::before {
+  content: "";
+  height: 100%;
+  width: 5px;
+  background-color: #2b71f0;
+  border-radius: 2.5px;
+  position: absolute;
+  left: 0;
+}
+.messageDiv::-webkit-scrollbar {
+  width: 6px;
+  margin-right: 10px;
+}
+.messageDiv::-webkit-scrollbar-thumb {
+  background-color: #e5e7eb;
+  border-radius: 10px;
+}
+.messageDiv::-webkit-scrollbar-track {
+  background-color: #ffffff;
+}
