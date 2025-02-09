@@ -15,12 +15,14 @@ const Page: React.FC = () => {
   const router = useRouter();
   const [createChallenge] = useCreateChallengeMutation();
   const [challengeTitle, setChallengeTitle] = useState("");
-  const [deadline, setDeadline] = useState<Date>(new Date());
-  const [startingDate, setStartingDate] = useState<Date>(new Date());
+  const [deadline, setDeadline] = useState<any>(new Date());
+  const [startingDate, setStartingDate] = useState<any>(new Date());
   const [duration, setDuration] = useState("");
   const [moneyPrize, setMoneyPrize] = useState("");
   const [contactEmail, setContactEmail] = useState("");
-  const [projectRequirements, setProjectRequirements] = useState<string[]>([""]);
+  const [projectRequirements, setProjectRequirements] = useState<string[]>([
+    "",
+  ]);
   const [product_design, setProductDesign] = useState<string[]>([""]);
   const [deliverables, setDeliverables] = useState<string[]>([""]);
   const [skills_needed, setSkills_needed] = useState<string[]>([""]);
@@ -84,20 +86,26 @@ const Page: React.FC = () => {
       seniority_level,
       skills_needed,
       projectBrief,
-      startingAt:startingDate,
+      startingAt: startingDate,
     };
     if (user) {
-     try {
-      const res = await createChallenge({id: user?.id, newChallenge: newToCreateChallenge}).unwrap();
-      console.log(res);
-      console.log(newToCreateChallenge)
-      if(res) {
-        router.push("/admin/challenges");
+      try {
+        const res = await createChallenge({
+          id: user?.id,
+          newChallenge: newToCreateChallenge,
+        }).unwrap();
+        console.log(res);
+        console.log(newToCreateChallenge);
+        if (res) {
+          router.push("/admin/challenges");
+        }
+      } catch (error) {
+        console.log(
+          "failed to create the challenge ",
+          error,
+          newToCreateChallenge
+        );
       }
-      
-     } catch (error) {
-      console.log("failed to create the challenge ", error, newToCreateChallenge);
-     }
     } else {
       alert("You must be logged in to create a challenge");
     }
