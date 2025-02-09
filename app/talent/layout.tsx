@@ -14,13 +14,14 @@ const TalentLayout = ({ children }: RNode) => {
   return (
     <div className="w-full bg-slate-50 excluded flex flex-row">
       <div className="excluded">
-        <TalentSideBar toggleModal={launchModal} />
+        {/* <TalentSideBar toggleModal={launchModal} /> */}
+        <TalentSideBar />
       </div>
       <div className="flex excluded flex-col w-full">
         <Header />
         <div className="excluded relative">
           {children}
-          {isOpened && <Modal />}
+          {/* {isOpened && <Modal />} */}
         </div>
       </div>
     </div>
