@@ -14,7 +14,7 @@ export interface LoginResponseDto {
     id: string;
     username: string;
     email: string;
-    roles: RoleEnum[];
+    roles:any;
   };
 }
 
@@ -22,7 +22,7 @@ export interface SignupBodyDto {
   username: string;
   password: string;
   email: string;
-  roles: RoleEnum[];
+  roles: any;
 }
 
 export interface SignupResponseDto {
@@ -43,7 +43,7 @@ interface AuthState {
     id: string;
     username: string;
     email: string;
-    roles: RoleEnum;
+    roles: any;
   } | null;
 }
 
