@@ -39,7 +39,9 @@ const Page = () => {
   const [projectBrief, setProjectBrief] = useState("");
   const [category, setCategory] = useState("");
   const [startingAt, setStartingAt] = useState<Date>(new Date());
-  const [projectRequirements, setProjectRequirements] = useState<string[]>([""]);
+  const [projectRequirements, setProjectRequirements] = useState<string[]>([
+    "",
+  ]);
   const [productDesign, setProductDesign] = useState<string[]>([""]);
   const [deliverables, setDeliverables] = useState<string[]>([""]);
   const [skillsNeeded, setSkillsNeeded] = useState<string[]>([""]);
@@ -108,7 +110,6 @@ const Page = () => {
     setter((prev) => prev.filter((_, i) => i !== index));
   };
 
-
   return (
     <div className="excluded flex flex-col space-y-[30px] pb-[70px] items-center">
       <div className="excluded flex flex-row w-full border-y-[1.5px] items-center border-[#E4E7EC] space-x-[20px] bg-white justify-start px-[20px] h-[62px]">
@@ -165,38 +166,37 @@ const Page = () => {
             </div>
 
             <div className="excluded md:w-1/2 mb-4 md:mb-0">
-            <label
-              htmlFor="startingAt"
-              className="block text-[#475367] text-[14px] mb-2"
-            >
-              Starting At
-            </label>
-            <input
-              type="date"
-              id="startingAt"
-              className="appearance-none placeholder:text-[14px] text-[14px] border-[0.5px] border-[#E4E7EC] rounded w-[279px] p-[16px] text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
-              value={startingAt.toString().split("T")[0]} // Format date for input
-              onChange={(e) => setStartingAt(new Date(e.target.value))}
-            />
-          </div>
-           
-          </div>
-          <div className="excluded mb-4">
               <label
-                htmlFor="duration"
+                htmlFor="startingAt"
                 className="block text-[#475367] text-[14px] mb-2"
               >
-                Duration (days)
+                Starting At
               </label>
               <input
-                type="text"
-                id="duration"
-                placeholder="Duration"
-                className="appearance-none placeholder:text-[14px] border-[0.5px] border-[#E4E7EC] rounded w-[576px] p-[16px] text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
+                type="date"
+                id="startingAt"
+                className="appearance-none placeholder:text-[14px] text-[14px] border-[0.5px] border-[#E4E7EC] rounded w-[279px] p-[16px] text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
+                value={startingAt.toString().split("T")[0]} // Format date for input
+                onChange={(e) => setStartingAt(new Date(e.target.value))}
               />
             </div>
+          </div>
+          <div className="excluded mb-4">
+            <label
+              htmlFor="duration"
+              className="block text-[#475367] text-[14px] mb-2"
+            >
+              Duration (days)
+            </label>
+            <input
+              type="text"
+              id="duration"
+              placeholder="Duration"
+              className="appearance-none placeholder:text-[14px] border-[0.5px] border-[#E4E7EC] rounded w-[576px] p-[16px] text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+            />
+          </div>
           <div className="excluded mb-4">
             <label
               htmlFor="moneyPrize"
@@ -255,8 +255,7 @@ const Page = () => {
             {skillsNeeded.map((value, index) => (
               <div key={index} className="flex space-x-2 mb-2">
                 <input
-                title = "..."
-          
+                  title="..."
                   type="text"
                   className="border-[0.5px] border-[#E4E7EC] rounded w-[500px] p-[16px] text-gray-700"
                   value={value}
@@ -266,24 +265,15 @@ const Page = () => {
                     setSkillsNeeded(newValues);
                   }}
                 />
-                <span
-                  
-                  onClick={() => removeField(index, setSkillsNeeded)}
-                >
+                <span onClick={() => removeField(index, setSkillsNeeded)}>
                   <MdDelete className="text-[30px] cursor-pointer text-red-400" />
                 </span>
               </div>
             ))}
-            <span
-            title=".."
-               
-              onClick={() => addField(setSkillsNeeded)}
-            >
+            <span title=".." onClick={() => addField(setSkillsNeeded)}>
               <IoMdAddCircleOutline className="text-[30px] cursor-pointer text-blue-500" />
             </span>
           </div>
-
-          
 
           {[projectRequirements, productDesign, deliverables].map(
             (field, fieldIndex) => (
@@ -299,6 +289,7 @@ const Page = () => {
                   <div key={index} className="flex space-x-2 mb-2">
                     <input
                       type="text"
+                      title="input"
                       className="border-[0.5px] border-[#E4E7EC] rounded w-[500px] p-[16px] text-gray-700"
                       value={value}
                       onChange={(e) => {
@@ -311,7 +302,8 @@ const Page = () => {
                           : setDeliverables(newValues);
                       }}
                     />
-                    <span
+                    <button
+                      title="button"
                       type="button"
                       onClick={() =>
                         removeField(
@@ -325,10 +317,11 @@ const Page = () => {
                       }
                     >
                       <MdDelete className="text-[30px] cursor-pointer text-red-400" />
-                    </span>
+                    </button>
                   </div>
                 ))}
-                <span
+                <button
+                  title="button"
                   type="button"
                   onClick={() =>
                     addField(
@@ -341,7 +334,7 @@ const Page = () => {
                   }
                 >
                   <IoMdAddCircleOutline className="text-[30px] cursor-pointer text-blue-500" />
-                </span>
+                </button>
               </div>
             )
           )}

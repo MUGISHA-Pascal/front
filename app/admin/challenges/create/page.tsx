@@ -300,7 +300,7 @@ const Page: React.FC = () => {
             product_design,
             deliverables,
             skills_needed,
-          ].map((field, fieldIndex) => (
+          ].map((field: any, fieldIndex: any) => (
             <div key={fieldIndex} className="excluded mb-4">
               <label className="block text-[#475367] text-[14px] mb-2">
                 {fieldIndex === 0
@@ -311,9 +311,10 @@ const Page: React.FC = () => {
                   ? "Deliverables"
                   : "Skills_needed"}
               </label>
-              {field.map((value, index) => (
+              {field.map((value: any, index: any) => (
                 <div key={index} className="flex space-x-2 mb-2">
                   <input
+                    title="input"
                     type="text"
                     className="border-[0.5px] border-[#E4E7EC] rounded w-[500px] p-[16px] text-gray-700"
                     value={value}
@@ -329,7 +330,8 @@ const Page: React.FC = () => {
                         : setSkills_needed(newValues);
                     }}
                   />
-                  <span
+                  <button
+                    title="button"
                     type="button"
                     onClick={() =>
                       removeField(
@@ -345,10 +347,11 @@ const Page: React.FC = () => {
                     }
                   >
                     <MdDelete className="text-[30px] cursor-pointer text-red-400" />
-                  </span>
+                  </button>
                 </div>
               ))}
-              <span
+              <button
+                title="button"
                 type="button"
                 onClick={() =>
                   addField(
@@ -363,7 +366,7 @@ const Page: React.FC = () => {
                 }
               >
                 <IoMdAddCircleOutline className="text-[30px] cursor-pointer text-blue-500" />
-              </span>
+              </button>
             </div>
           ))}
 

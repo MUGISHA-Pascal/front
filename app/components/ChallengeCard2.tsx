@@ -19,11 +19,11 @@ interface Challenge {
   category: string;
   status: string;
   createdAt?: string;
-  seniority_level:string;
-  skills_needed:string[];
-  startingAt:Date
+  seniority_level: string;
+  skills_needed: string[];
+  startingAt: Date;
 }
-const ChallengeCard2: React.FC<{ challenge: Challenge }> = ({ challenge }) => {
+const ChallengeCard2: React.FC<{ challenge: any }> = ({ challenge }) => {
   const user = useSelector((state: RootState) => state.auth.user);
 
   return (
@@ -35,7 +35,15 @@ const ChallengeCard2: React.FC<{ challenge: Challenge }> = ({ challenge }) => {
           alt="umurava_bg"
           className="w-[300px] object-cover rounded-[8px] h-[160px]"
         />
-        <span className={` ${challenge?.status == "completed" ? "bg-red-500 px-[7px] w-[80px]" : challenge.status =="open" ? "bg-[#0f973d] w-[52px]" : "bg-yellow-500 w-[60px]" } text-white absolute w-[52px] grid place-items-center h-[22px] rounded-full top-[8px] text-[12px] right-[17px]`}>
+        <span
+          className={` ${
+            challenge?.status == "completed"
+              ? "bg-red-500 px-[7px] w-[80px]"
+              : challenge.status == "open"
+              ? "bg-[#0f973d] w-[52px]"
+              : "bg-yellow-500 w-[60px]"
+          } text-white absolute w-[52px] grid place-items-center h-[22px] rounded-full top-[8px] text-[12px] right-[17px]`}
+        >
           {challenge.status}
         </span>
       </div>
@@ -46,16 +54,14 @@ const ChallengeCard2: React.FC<{ challenge: Challenge }> = ({ challenge }) => {
         Skills Needed:
       </h2>
       <div className="excluded flex flex-wrap mt-2 gap-[8px] items-start justify-start mb-3 px-3">
-       {
-        challenge.skills_needed.map((skill, index) => (
+        {challenge.skills_needed.map((skill: any, index: any) => (
           <button
-           key={index}
-           className="text-[#2B71F0] text-[11px] px-[6px] py-[4px] rounded-[10px] border-[#2B71F0] border-[1px]">
-           {skill}
-        </button>
-       
-        ))
-       }
+            key={index}
+            className="text-[#2B71F0] text-[11px] px-[6px] py-[4px] rounded-[10px] border-[#2B71F0] border-[1px]"
+          >
+            {skill}
+          </button>
+        ))}
       </div>
 
       <div className="excluded space-x-[4px] mt-[8px] items-start justify-start px-3">

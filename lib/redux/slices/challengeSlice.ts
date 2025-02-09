@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export type ChallengeType = {
-  _id?:string;
+  _id?: string;
   title: string;
   deadline: Date;
   duration: number;
@@ -12,32 +12,33 @@ export type ChallengeType = {
   product_design: string[];
   deliverables: string[];
   category: string;
-  status?:string;
-  seniority_level:string;
-  skills_needed:string[];
-  startingAt:Date;
-  filterText?:string
+  status?: string;
+  seniority_level: string;
+  skills_needed: string[];
+  startingAt: Date;
+  filterText?: string;
 };
 
 export const challengeSlice = createApi({
   reducerPath: "challenge",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4000/challenges" ,
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:4000/challenges",
     prepareHeaders: (headers) => {
-      const token = localStorage.getItem('token'); 
+      const token = localStorage.getItem("token");
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
+        headers.set("Authorization", `Bearer ${token}`);
       }
 
       return headers;
-    }
-   }),
+    },
+  }),
   endpoints: (builder) => ({
     getChallenges: builder.query<ChallengeType[], void>({
       query: () => "/",
     }),
     getChallengesByDaysAgo: builder.query<ChallengeType[], number>({
-      query: (daysAgo) =>  `/total/${daysAgo}`,
+      query: (daysAgo) => `/total/${daysAgo}`,
     }),
     getOpenChallengeDaysAgo: builder.query<ChallengeType[], number>({
       query: (daysAgo) => `/open/${daysAgo}`,
@@ -48,7 +49,7 @@ export const challengeSlice = createApi({
     getCompletedChallengeDaysAgo: builder.query<ChallengeType[], number>({
       query: (daysAgo) => `/completed/${daysAgo}`,
     }),
-    getChallengeById: builder.query<ChallengeType, string>({
+    getChallengeById: builder.query<any, string>({
       query: (id) => `/${id}`,
     }),
     createChallenge: builder.mutation<
@@ -76,7 +77,8 @@ export const challengeSlice = createApi({
         url: `/${id}`,
         method: "DELETE",
       }),
-    }),    getChallengeByStatus: builder.query<ChallengeType[], string>({
+    }),
+    getChallengeByStatus: builder.query<ChallengeType[], string>({
       query: (status) => `/admin/${status}`,
     }),
   }),
