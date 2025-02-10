@@ -9,7 +9,7 @@ interface Participant {
 
 export const participantsApi = createApi({
   reducerPath: "participantsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4000/participants",
+  baseQuery: fetchBaseQuery({ baseUrl: "https://skills-challenge.onrender.com/participants",
     prepareHeaders: (headers) => {
       const token = localStorage.getItem('token'); 
 

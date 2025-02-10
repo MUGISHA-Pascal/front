@@ -1,13 +1,5 @@
 "use client";
-import React, { Fragment, useEffect, useState } from "react";
-// import Header from "@/app/components/Header";
-// import SideBar from "@/app/components/SideBar";
-// import ChallengeCard from "@/app/components/ChallengeCard";
-// import { RxFileText } from "react-icons/rx";
-// import ChallengeCard2 from "@/app/components/ChallengeCard2";
-// import { MdOutlineNavigateNext } from "react-icons/md";
-// import { GrFormPrevious } from "react-icons/gr";
-
+import React, { useEffect, useState } from "react";
 import {
   ChallengeType,
   useGetChallengeByStatusQuery,
@@ -17,7 +9,6 @@ import Link from "next/link";
 import ChallengeCard2 from "@/app/components/ChallengeCard2";
 import { RootState } from "@/lib/redux/store";
 import { useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
 import Button from "@/app/components/challengs/Button";
 
 const Challenges = () => {
@@ -29,15 +20,6 @@ const Challenges = () => {
   const { data: dataForOngoing } = useGetChallengeByStatusQuery("ongoing");
   const { data: dataForComplete } = useGetChallengeByStatusQuery("completed");
   const [isCurrent, setIsCurrent] = useState("");
-  useEffect(() => {
-    if (data?.length) setAllCount(data.length);
-    if (dataForOpen?.length) setOpenCount(dataForOpen.length);
-    if (dataForOngoing?.length) setOngoingCount(dataForOngoing.length);
-    if (dataForComplete?.length) setCompletedCount(dataForComplete.length);
-  }, [dataForComplete, dataForOngoing, dataForOpen]);
-
-  const router = useRouter();
-  const user = useSelector((state: RootState) => state.auth.user);
 
   const { data } = useGetChallengesQuery();
   const { query, filterText } = useSelector((state: RootState) => state.search);
@@ -48,11 +30,15 @@ const Challenges = () => {
   );
 
   useEffect(() => {
-    if (user?.roles.toString() !== "admin") {
-      router.push("/login");
-    }
-  }, [user, router]);
+    if (data?.length) setAllCount(data.length);
+    if (dataForOpen?.length) setOpenCount(dataForOpen.length);
+    if (dataForOngoing?.length) setOngoingCount(dataForOngoing.length);
+    if (dataForComplete?.length) setCompletedCount(dataForComplete.length);
+  }, [dataForComplete, dataForOngoing, dataForOpen]);
 
+  if(data) {
+    console.log("data are =>",data)
+  }
   useEffect(() => {
     if (data) {
       const filtered = data.filter((challenge) =>
@@ -89,28 +75,23 @@ const Challenges = () => {
   const lastIndex = CurrentPage * totalNumberElements;
   const firstIndex = lastIndex - totalNumberElements;
   let paginatedchallenges = data?.slice(firstIndex, lastIndex);
-  let totalNumberPages = Math.ceil(
-    DataTransferItemList.length / totalNumberElements
-  );
+  let totalNumberPages = 0;
   if (filteredChallenges.length > 0) {
     paginatedchallenges = filteredChallenges?.slice(firstIndex, lastIndex);
     totalNumberPages = Math.ceil(
       filteredChallenges?.length / totalNumberElements
     );
-  } else {
+  } else if(data) {
     paginatedchallenges = data?.slice(firstIndex, lastIndex);
-    totalNumberPages = Math.ceil(
-      DataTransferItemList.length / totalNumberElements
-    );
+    totalNumberPages = Math.ceil(data?.length / totalNumberElements
+    )
   }
   const handleNext = () => {
     if (CurrentPage < totalNumberPages) {
       setCurrent(CurrentPage + 1);
     }
   };
-  const handleNumberClick = (pageNumber: number) => {
-    setCurrent(pageNumber);
-  };
+
   const handlePrevious = () => {
     if (CurrentPage > 1) {
       setCurrent(CurrentPage - 1);

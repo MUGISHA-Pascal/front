@@ -1,33 +1,30 @@
 "use client";
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
-import { RootState } from "@/lib/redux/store";
+import React, { useEffect, useState } from "react";
 import { useGetChallengesQuery } from "@/lib/redux/slices/challengeSlice";
 import ChallengeCard2 from "@/app/components/ChallengeCard2";
 import Card from "@/app/components/Card";
 import Card2 from "@/app/components/Card2";
 import { FaChevronRight } from "react-icons/fa6";
 import Link from "next/link";
+import { UserType } from "../challenges/create/page";
 
 const Page = () => {
-  const router = useRouter();
-  const user = useSelector((state: RootState) => state.auth.user);
+  const [currentUser, setCurrentUser] = useState<UserType | null>(null)
   const { data } = useGetChallengesQuery();
 
   useEffect(() => {
-    if (user?.roles.toString()!=="admin") {
-      router.push("/login");
+    const av_user = localStorage.getItem("user");
+    if (av_user) {
+      setCurrentUser(JSON.parse(av_user));
     }
-  }, [user, router]);
+  }, []);
 
-  console.log(data)
 
   return (
     <div className="excludedDashBoard px-12 py-4 max-[1000px]:px-6 z-1 w-full h-full">
       <div className="excludedDashBoard h-[56px] flex flex-col gap-[4px] mb-12 mt-[10px]">
         <h1 className="font-semibold text-[24px] leading-[28px]">
-          Welcome back, {user?.username}
+          Welcome back, {currentUser?.username}
         </h1>
         <p className="text-[16px] leading-[23px] font-normal text-[#475367]">
           Build Work Experience through Skills Challenges

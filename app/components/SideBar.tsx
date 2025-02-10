@@ -12,11 +12,13 @@ import { FiLogOut } from "react-icons/fi";
 import Link from "next/link";
 import { RiTelegram2Line } from "react-icons/ri";
 import { usePathname, useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { clearCredentials } from "@/lib/redux/slices/authSlice";
-import { RootState } from "@/lib/redux/store";
+import { UserType } from "../admin/challenges/create/page";
+
 
 const SideBar = () => {
+  const [currentUser, setCurrentUser] = useState<UserType | null>(null)
   const dispatch = useDispatch();
   const router = useRouter();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -34,13 +36,16 @@ const SideBar = () => {
     setShowLogoutModal(false);
   };
 
-  const user = useSelector((state: RootState) => state.auth.user);
+  // const user = useSelector((state: RootState) => state.auth.user);
 
   useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-  }, [user, router]);
+   const av_user = localStorage.getItem('user')
+   if(av_user){
+    setCurrentUser(JSON.parse(av_user))
+   }
+  //  router.push('/login')
+   
+  }, []);
 
   return (
     <div className="w-[272px] max-[1000px]:w-[64px] bg-[#2b71F0] text-white px-2 h-[1400px]">
@@ -156,10 +161,10 @@ const SideBar = () => {
             />
             <div className="flex max-[1000px]:hidden flex-col gap-1 w-[80%]">
               <p className="text-[12px] font-normal leading-5">
-                {user?.username}, PM
+                {currentUser?.username}, PM
               </p>
               <p className="text-[12px] font-normal leading-5 w-[80%]">
-                {user?.email}
+                {currentUser?.email}
               </p>
             </div>
           </div>

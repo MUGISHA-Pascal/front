@@ -1,17 +1,21 @@
 "use client";
 import { useCreateChallengeMutation } from "@/lib/redux/slices/challengeSlice";
 import Link from "next/link";
-import React, { useState } from "react";
-import { IoMdAdd, IoMdAddCircleOutline } from "react-icons/io";
+import React, { useEffect, useState } from "react";
+import {  IoMdAddCircleOutline } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import { VscArrowSmallLeft } from "react-icons/vsc";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
-import { RootState } from "@/lib/redux/store";
-// import axios from "axios";
+
+
+export interface UserType {
+  id: string;
+  [key: string]: string;
+}
 
 const Page: React.FC = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
+  const [user, setUser] = useState<UserType | null>(null);
+
   const router = useRouter();
   const [createChallenge] = useCreateChallengeMutation();
   const [challengeTitle, setChallengeTitle] = useState("");
@@ -30,6 +34,12 @@ const Page: React.FC = () => {
   const [seniority_level, setSeniority_level] = useState("");
   const [projectBrief, setProjectBrief] = useState("");
 
+  useEffect(()=> {
+  const currentUser = localStorage.getItem("user");
+  if(currentUser) {
+    setUser(JSON.parse(currentUser))
+  }
+  },[])
   const handleSubmit = async (event: React.FormEvent) => {
     // Check for empty fields
     if (

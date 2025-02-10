@@ -22,7 +22,7 @@ export type ChallengeType = {
 export const challengeSlice = createApi({
   reducerPath: "challenge",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4000/challenges",
+    baseUrl: "https://skills-challenge.onrender.com/challenges",
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
 
@@ -49,7 +49,7 @@ export const challengeSlice = createApi({
     getCompletedChallengeDaysAgo: builder.query<ChallengeType[], number>({
       query: (daysAgo) => `/completed/${daysAgo}`,
     }),
-    getChallengeById: builder.query<any, string>({
+    getChallengeById: builder.query<ChallengeType, string>({
       query: (id) => `/${id}`,
     }),
     createChallenge: builder.mutation<

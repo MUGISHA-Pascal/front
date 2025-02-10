@@ -3,58 +3,54 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import StatusCard from "../components/StatusCard";
-import { FaAngleRight } from "react-icons/fa6";
+// import { FaAngleRight } from "react-icons/fa6";
 import ChallengeCard2 from "@/app/components/ChallengeCard2";
-
-import { useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
-import { RootState } from "@/lib/redux/store";
 import { useGetChallengesQuery } from "@/lib/redux/slices/challengeSlice";
 import Link from "next/link";
 import { useGetChallengesByUserWithStatusQuery } from "@/lib/redux/slices/participantsSlice";
 import { FaChevronRight } from "react-icons/fa";
+import { UserType } from "@/app/admin/challenges/create/page";
 const Dashboard = () => {
   const [openCount, setOpenCount] = useState(0);
   const [ongoingCount, setOngoingCount] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
-  const user = useSelector((state: RootState) => state.auth.user);
-  const { data: openChallenges } = useGetChallengesByUserWithStatusQuery({
-    userId: user?.id,
-    status: "open",
-  });
-  const { data: ongoingChallenges } = useGetChallengesByUserWithStatusQuery({
-    userId: user?.id,
-    status: "ongoing",
-  });
-  const { data: completedChallenges } = useGetChallengesByUserWithStatusQuery({
-    userId: user?.id,
-    status: "completed",
-  });
+  // const user = useSelector((state: RootState) => state.auth.user);
+  const [currentUser, setCurrentUser] = useState<UserType | null>(null);
+
+  useEffect(() => {
+    const av_user = localStorage.getItem("user");
+    if (av_user) {
+      console.log("the current user is =>",av_user)
+      setCurrentUser(JSON.parse(av_user));
+    }
+  }, []);
+
+  const { data: openChallenges } = useGetChallengesByUserWithStatusQuery(
+     { userId: currentUser?.id, status: "open" }
+  );
+  const { data: ongoingChallenges } = useGetChallengesByUserWithStatusQuery(
+ { userId: currentUser?.id, status: "ongoing" } 
+  );
+  const { data: completedChallenges } = useGetChallengesByUserWithStatusQuery(
+    { userId: currentUser?.id, status: "completed" }
+  );
   useEffect(() => {
     if (openChallenges?.length) setOpenCount(openChallenges.length);
     if (ongoingChallenges?.length) setOngoingCount(ongoingChallenges.length);
     if (completedChallenges?.length)
       setCompletedCount(completedChallenges.length);
   }, [openChallenges, ongoingChallenges, completedChallenges]);
-  const router = useRouter();
 
-  useEffect(() => {
-    if (user?.roles.toString() !== "talent") {
-      router.push("/login");
-    }
-    console.log(user);
-  }, [user, router]);
+
 
   const { data } = useGetChallengesQuery();
-
-  console.log("data is found => ", data);
 
   return (
     <div className="p-[36px] excluded gap-[16px] bg-[#F9FAFB]">
       <div className="flex flex-row excluded justify-between">
         <div className="excludedDashBoard h-[56px] flex flex-col gap-[4px] mb-12 mt-[10px]">
           <h1 className="font-semibold text-[24px] leading-[28px]">
-            Welcome back, {user?.username}
+            Welcome back, {currentUser?.username}
           </h1>
           <p className="text-[16px] leading-[23px] font-normal text-[#475367]">
             Build Work Experience through Skills Challenges

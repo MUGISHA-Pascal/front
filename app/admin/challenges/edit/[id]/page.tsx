@@ -12,12 +12,10 @@ import {
 } from "@/lib/redux/slices/challengeSlice";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { RootState } from "@/lib/redux/store";
+import { UserType } from "../../create/page";
 
 const Page = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
-  const [updateChallenge, { isLoading, isError, isSuccess }] =
+const [currentUser, setCurrentUser] = useState<UserType | null>(null);
     useUpdateChallengeMutation();
 
   const router = useRouter();
@@ -26,8 +24,8 @@ const Page = () => {
   const { data } = useGetChallengeByIdQuery(params.id);
 
   useEffect(() => {
-    if (data?.Challenge) {
-      setChallenge(data.Challenge);
+    if (data) {
+      setChallenge(data);
     }
   }, [data]);
 
@@ -47,6 +45,12 @@ const Page = () => {
   const [skillsNeeded, setSkillsNeeded] = useState<string[]>([""]);
   const [seniorityLevel, setSeniorityLevel] = useState("");
 
+  useEffect(() => {
+    const av_user = localStorage.getItem("user");
+    if(av_user) {
+      setCurrentUser(JSON.parse(av_user))
+    }
+  }, [])
   useEffect(() => {
     if (challenge) {
       setChallengeTitle(challenge.title);
@@ -85,7 +89,7 @@ const Page = () => {
     };
 
     const res = await axios.put(
-      `http://localhost:4000/challenges/${params.id}/${user?.id}`,
+      `https://skills-challenge.onrender.com/challenges/${params.id}/${currentUser?.id}`,
       updatedChallenge,
       {
         headers: {
@@ -346,9 +350,9 @@ const Page = () => {
             <button
               type="submit"
               className="bg-[#2B71f0] w-[324px] h-[56px] text-[16px] rounded-[5px] font-semibold text-white"
-              disabled={isLoading} // Disable button while loading
+             
             >
-              {isLoading ? "Editing..." : " Edit Challenge"}
+             Edit Challenge
             </button>
           </div>
         </form>

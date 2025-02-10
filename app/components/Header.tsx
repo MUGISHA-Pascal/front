@@ -5,7 +5,6 @@ import { IoFilterOutline, IoSearchSharp } from "react-icons/io5";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import io, { Socket } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
-import ProtectedRoute from "./script/Protection";
 import Image from "next/image";
 
 import { setSearchQuery } from "@/lib/redux/slices/searchSlice";
@@ -20,9 +19,9 @@ import {
 } from "@/lib/redux/slices/notificationSlice";
 import asread from "@/public/asread.svg";
 
-const SOCKET_SERVER_URL = "http://localhost:4000";
+const SOCKET_SERVER_URL = "https://skills-challenge.onrender.com";
 const Header = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
+
   const dispatch = useDispatch();
   const { data: pastNotifications } = useGetNotificationsQuery();
   const notifications = useSelector(
@@ -108,6 +107,7 @@ const Header = () => {
     socketRef?.current?.emit("mark-notifications-read");
     setNotificationShow(false); // Emit event to backend
   };
+
 
   return (
     <div className="flex relative z-20 max-[1000px]:w-full items-center justify-between max-[1000px]:justify-around p-4 bg-white border-[#E4E7EC]">
@@ -232,7 +232,7 @@ const Header = () => {
         />
       </div>
 
-      {user && user?.roles && <ProtectedRoute role={user?.roles as string} />}
+     
     </div>
   );
 };

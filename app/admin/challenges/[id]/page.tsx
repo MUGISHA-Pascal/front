@@ -23,7 +23,7 @@ const Page = () => {
   const [challenge, setChallenge] = useState<ChallengeType>();
   const router = useRouter();
   const getChallenge = async (id: string) => {
-    const response = await axios.get(`http://localhost:4000/challenges/${id}`);
+    const response = await axios.get(`https://skills-challenge.onrender.com/challenges/${id}`);
     if (response) {
       console.log(response.data);
       setChallenge(response.data.Challenge);
@@ -31,7 +31,7 @@ const Page = () => {
   };
 
   const deleteChallenge = async (id: any) => {
-    const res = await axios.delete(`http://localhost:4000/challenges/${id}`, {
+    const res = await axios.delete(`https://skills-challenge.onrender.com/challenges/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

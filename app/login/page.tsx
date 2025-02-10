@@ -23,7 +23,8 @@ const Page = () => {
   const handleLoginSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const loginResponse = await login({ email, password }).unwrap();
-
+    localStorage.setItem('user', JSON.stringify(loginResponse.user));
+    localStorage.setItem('token', loginResponse.accessToken);
     if (loginResponse.status === 200) {
       dispatch(
         setCredentials({

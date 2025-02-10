@@ -44,7 +44,7 @@ export default notificationsSlice.reducer;
 export const notificationsApi = createApi({
   reducerPath: "notificationsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4000/notifications",
+    baseUrl: "https://skills-challenge.onrender.com/notifications",
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       if (token) {

@@ -48,9 +48,6 @@ interface AuthState {
 }
 
 const loadAuthState = (): AuthState => {
-  // if (typeof window === "undefined") {
-  //   return { token: null, user: null };
-  // }
   return {
     token: null,
     user: null,
@@ -75,7 +72,7 @@ const authSlice = createSlice({
 
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4000/auth" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://skills-challenge.onrender.com/auth" }),
   endpoints: (builder) => ({
     login: builder.mutation<any, LoginBodyDto>({
       query: (credentials) => ({
